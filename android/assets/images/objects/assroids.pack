@@ -1,0 +1,89 @@
+
+assroids.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 1, 1000
+  size: 1280, 1024
+  orig: 1280, 1024
+  offset: 0, 0
+  index: -1
+star
+  rotate: false
+  xy: 1, 486
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+asteroid_a
+  rotate: false
+  xy: 1283, 1565
+  size: 533, 459
+  orig: 533, 459
+  offset: 0, 0
+  index: -1
+asteroid_b
+  rotate: false
+  xy: 1, 1
+  size: 497, 483
+  orig: 497, 483
+  offset: 0, 0
+  index: -1
+asteroid_c
+  rotate: false
+  xy: 515, 618
+  size: 526, 380
+  orig: 526, 380
+  offset: 0, 0
+  index: -1
+ship
+  rotate: false
+  xy: 1283, 1313
+  size: 247, 250
+  orig: 247, 250
+  offset: 0, 0
+  index: -1
+mine
+  rotate: false
+  xy: 1818, 1874
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+fighter
+  rotate: false
+  xy: 515, 516
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: 0
+bullet
+  rotate: false
+  xy: 1043, 929
+  size: 72, 69
+  orig: 72, 69
+  offset: 0, 0
+  index: 1
+bullet
+  rotate: false
+  xy: 1283, 1242
+  size: 72, 69
+  orig: 72, 69
+  offset: 0, 0
+  index: 2
+bullet
+  rotate: false
+  xy: 1532, 1494
+  size: 72, 69
+  orig: 72, 69
+  offset: 0, 0
+  index: 4
+bullet
+  rotate: false
+  xy: 1818, 1803
+  size: 71, 69
+  orig: 71, 69
+  offset: 0, 0
+  index: 3
