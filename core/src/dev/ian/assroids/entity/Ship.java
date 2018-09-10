@@ -1,33 +1,46 @@
 package dev.ian.assroids.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import dev.ian.assroids.BulletType;
+import dev.ian.assroids.Collidable;
+import dev.ian.assroids.CollidableVisitor;
+import dev.ian.assroids.PowerUp;
+import dev.ian.assroids.entity.bullet.Bullet;
+import dev.ian.assroids.factory.BulletFactory;
 
 /**
  * Created by: Ian Parcon
  * Date created: Sep 02, 2018
  * Time created: 8:51 PM
  */
-public class Ship extends GameObject {
+public class Ship extends GameObject implements Collidable, CollidableVisitor {
 
+    private BulletType bulletType;
     private List<Bullet> bullets;
+    private float shipExplosionDelay;
     private float fireDelay;
+    private float gunCoil;
     private float angle;
+    private int damage;
+    private int kill;
 
     public Ship(Sprite sprite, float x, float y) {
         super(sprite, x, y);
-
         bullets = new ArrayList<Bullet>();
     }
 
     public void update(float delta) {
-        handleEvents();
+        shipExplosionDelay += delta;
+        fireDelay += delta;
+
         angle = MathUtils.atan2(dy, dx);
         dx += MathUtils.cos(angle) * delta;
         dy += MathUtils.sin(angle) * delta;
@@ -40,29 +53,89 @@ public class Ship extends GameObject {
 
     @Override
     public void draw(SpriteBatch batch) {
-        for (Bullet bullet : bullets) {
+        Iterator<Bullet> iter = bullets.iterator();
+        while (iter.hasNext()) {
+            Bullet bullet = iter.next();
             bullet.update(Gdx.graphics.getDeltaTime());
             bullet.draw(batch);
+            if (bullet.isOutOfBounds()) iter.remove();
         }
         sprite.setPosition(x, y);
         sprite.setRotation(angle * MathUtils.radDeg);
         super.draw(batch);
     }
 
-    private void handleEvents() {
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) dy += 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) dy -= 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) dx += 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) dx -= 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) fire();
+    public void fire() {
+        if (fireDelay >= gunCoil) {
+            float bulletX = x + getWidth() / 2;
+            float bulletY = y + getHeight() / 2;
+            Bullet bullet = BulletFactory.create(bulletType, angle, bulletX, bulletY);
+            bullets.add(bullet);
+            damage = bullet.getDamage();
+            fireDelay = 0;
+            gunCoil = bullet.getBulletCoil();
+        }
     }
 
-    private void fire() {
-        fireDelay += Gdx.graphics.getDeltaTime();
-        if (fireDelay >= .05f) {
-            Bullet bullet = new Bullet(angle, x + (getWidth() / 2), y + (getHeight() / 2));
-            bullets.add(bullet);
-            fireDelay = 0;
+    @Override
+    public boolean isCollide(GameObject gameObject) {
+        if (super.isCollide(gameObject) && shipExplosionDelay >= 0.5f) {
+            shipExplosionDelay = 0;
+            return true;
         }
+        return false;
+    }
+
+    public void changeBullet(PowerUp powerUp) {
+        this.bulletType = powerUp.getBulletType();
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public float getAngle() {
+        return angle * MathUtils.radDeg;
+    }
+
+    public BulletType getBulletType() {
+        return bulletType;
+    }
+
+    @Override
+    public void accept(CollidableVisitor visitor) {
+        visitor.collide(this);
+    }
+
+    @Override
+    public void collide(Asteroid asteroid) {
+    }
+
+    public int getKill() {
+        return kill;
+    }
+
+
+    @Override
+    public void collide(Bullet bullet) {
+
+    }
+
+    @Override
+    public void collide(PowerUp powerUp) {
+
+    }
+
+    @Override
+    public void collide(Ship ship) {
+
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void increaseKill() {
+        ++kill;
     }
 }

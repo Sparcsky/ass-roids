@@ -1,6 +1,7 @@
 package dev.ian.assroids.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -11,23 +12,57 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class GameObject implements Entity {
 
-    float x, y;
-    float dx, dy;
-    Sprite sprite;
+    protected float x, y;
+    protected float dx, dy;
+    protected Sprite sprite;
+    protected Color color;
 
     public GameObject(Sprite sprite, float x, float y) {
         this.sprite = sprite;
         this.x = x;
         this.y = y;
+
+        sprite.setPosition(x, y);
     }
 
-    public GameObject(Sprite sprite) {
-        this.sprite = sprite;
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setPosition(float x, float y) {
+        sprite.setPosition(x, y);
     }
 
     public GameObject(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public GameObject() {
+    }
+
+    public float getDx() {
+        return dx;
+    }
+
+    public float getDy() {
+        return dy;
+    }
+
+    public void setDy(float dy) {
+        this.dy += dy;
+    }
+
+    public void setDx(float dx) {
+        this.dx += dx;
     }
 
     public void setSize(float width, float height) {
@@ -50,6 +85,13 @@ public class GameObject implements Entity {
         if (x > Gdx.graphics.getWidth()) x = -getWidth();
     }
 
+    public boolean isCollide(GameObject object) {
+        return x < object.x + object.getWidth() &&
+                x + getWidth() > object.x &&
+                y < object.y + object.getHeight() &&
+                y + getHeight() > object.y;
+    }
+
     @Override
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
@@ -69,10 +111,5 @@ public class GameObject implements Entity {
 
     public float getY() {
         return y;
-    }
-
-    public void setDirection(float dx, float dy) {
-        this.dx = dx;
-        this.dy = dy;
     }
 }

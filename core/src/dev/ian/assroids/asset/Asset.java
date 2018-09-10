@@ -1,4 +1,4 @@
-package dev.ian.assroids;
+package dev.ian.assroids.asset;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -24,7 +24,7 @@ public class Asset {
 
     private static final String EXPLOSION_PACK = "images/explosion/explosion.pack";
     private static final String ASSROID_PACK = "images/objects/assroids.pack";
-    private static final String PIXEL_FONT = "fonts/pixel.ttf";
+    public static final String PIXEL_FONT = "fonts/pixel.ttf";
 
     private TextureAtlas asteroidAtlas;
     private TextureAtlas explosionAtlas;
@@ -37,7 +37,6 @@ public class Asset {
     }
 
     private void initHandler() {
-
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
@@ -76,6 +75,10 @@ public class Asset {
 
     public Array<TextureAtlas.AtlasRegion> createRegion(String name) {
         return asteroidAtlas.findRegions(name);
+    }
+
+    public Array<TextureAtlas.AtlasRegion> createExplosion(String name) {
+        return explosionAtlas.findRegions(name);
     }
 
     public void dispose() {

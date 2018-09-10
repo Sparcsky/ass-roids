@@ -38,21 +38,28 @@ asteroid_c
   orig: 526, 380
   offset: 0, 0
   index: -1
-ship
+heart
   rotate: false
-  xy: 1283, 1313
+  xy: 1283, 1309
+  size: 254, 254
+  orig: 254, 254
+  offset: 0, 0
+  index: -1
+hero-ship
+  rotate: false
+  xy: 1283, 1057
   size: 247, 250
   orig: 247, 250
   offset: 0, 0
   index: -1
-mine
+Mine
   rotate: false
   xy: 1818, 1874
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
-fighter
+Fighter
   rotate: false
   xy: 515, 516
   size: 100, 100
@@ -61,29 +68,29 @@ fighter
   index: 0
 bullet
   rotate: false
-  xy: 1043, 929
-  size: 72, 69
-  orig: 72, 69
+  xy: 1043, 926
+  size: 69, 72
+  orig: 69, 72
   offset: 0, 0
   index: 1
 bullet
   rotate: false
-  xy: 1283, 1242
-  size: 72, 69
-  orig: 72, 69
+  xy: 1539, 1491
+  size: 69, 72
+  orig: 69, 72
   offset: 0, 0
   index: 2
 bullet
   rotate: false
-  xy: 1532, 1494
-  size: 72, 69
-  orig: 72, 69
+  xy: 1818, 1800
+  size: 69, 72
+  orig: 69, 72
   offset: 0, 0
   index: 4
 bullet
   rotate: false
-  xy: 1818, 1803
-  size: 71, 69
-  orig: 71, 69
+  xy: 1970, 1953
+  size: 69, 71
+  orig: 69, 71
   offset: 0, 0
   index: 3
