@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
+import dev.ian.assroids.asset.Asset;
+
 /**
  * Created by: Ian Parcon
  * Date created: Sep 09, 2018
@@ -18,6 +20,7 @@ public class EagleEyeSightBullet extends Bullet {
         width = 25;
         height = 25;
         color = Color.PINK;
+        gunShotSound = Asset.instance().get(Asset.EAGLE_GUN_SHOT);
     }
 
     @Override

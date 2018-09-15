@@ -1,6 +1,6 @@
 package dev.ian.assroids.factory;
 
-import dev.ian.assroids.BulletType;
+import dev.ian.assroids.entity.bullet.BulletType;
 import dev.ian.assroids.entity.bullet.Bullet;
 import dev.ian.assroids.entity.bullet.EagleEyeSightBullet;
 import dev.ian.assroids.entity.bullet.LaserBullet;

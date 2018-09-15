@@ -1,6 +1,8 @@
 package dev.ian.assroids.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -9,11 +11,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import dev.ian.assroids.BulletType;
-import dev.ian.assroids.Collidable;
-import dev.ian.assroids.CollidableVisitor;
-import dev.ian.assroids.PowerUp;
+import dev.ian.assroids.asset.Asset;
+import dev.ian.assroids.collision.Collidable;
+import dev.ian.assroids.collision.CollidableVisitor;
 import dev.ian.assroids.entity.bullet.Bullet;
+import dev.ian.assroids.entity.bullet.BulletType;
 import dev.ian.assroids.factory.BulletFactory;
 
 /**
@@ -67,13 +69,12 @@ public class Ship extends GameObject implements Collidable, CollidableVisitor {
 
     public void fire() {
         if (fireDelay >= gunCoil) {
-            float bulletX = x + getWidth() / 2;
-            float bulletY = y + getHeight() / 2;
-            Bullet bullet = BulletFactory.create(bulletType, angle, bulletX, bulletY);
-            bullets.add(bullet);
+            Bullet bullet = BulletFactory.create(bulletType, angle,  x + getWidth() / 2, y + getHeight() / 2);
             damage = bullet.getDamage();
-            fireDelay = 0;
             gunCoil = bullet.getBulletCoil();
+            bullets.add(bullet);
+            fireDelay = 0;
+            bullet.playSound();
         }
     }
 
@@ -114,7 +115,6 @@ public class Ship extends GameObject implements Collidable, CollidableVisitor {
     public int getKill() {
         return kill;
     }
-
 
     @Override
     public void collide(Bullet bullet) {

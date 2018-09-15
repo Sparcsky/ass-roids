@@ -1,12 +1,10 @@
 package dev.ian.assroids.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
-import dev.ian.assroids.Collidable;
-import dev.ian.assroids.CollidableVisitor;
-import dev.ian.assroids.PowerUp;
 import dev.ian.assroids.asset.Asset;
+import dev.ian.assroids.collision.Collidable;
+import dev.ian.assroids.collision.CollidableVisitor;
 import dev.ian.assroids.entity.bullet.Bullet;
 
 /**
@@ -21,18 +19,20 @@ public class Asteroid extends GameObject implements Collidable, CollidableVisito
     protected float speed;
     private String[] asteroidTextures = {"asteroid_a", "asteroid_b", "asteroid_c"};
 
+
     public Asteroid() {
         this.sprite = Asset.instance().createSprite(asteroidTextures[MathUtils.random(asteroidTextures.length - 1)]);
         rotation = MathUtils.random(-0.5f, 0.5f);
-        speed = MathUtils.random(50,200);
-        x = MathUtils.random(-100,0);
-        y = MathUtils.random(-100,0);
+        speed = MathUtils.random(50, 200);
+        x = MathUtils.random(-100, 0);
+        y = MathUtils.random(-100, 0);
         dx = MathUtils.random(-40, 20);
         dy = MathUtils.random(-40, 20);
         health = 100;
-        int randSize= MathUtils.random(50, 100);
+        int randSize = MathUtils.random(50, 100);
         setSize(randSize, randSize);
         originCenter();
+
     }
 
     @Override
@@ -45,6 +45,7 @@ public class Asteroid extends GameObject implements Collidable, CollidableVisito
         y += dy * delta;
         sprite.setPosition(x, y);
         sprite.rotate(rotation);
+
         super.update(delta);
     }
 
@@ -75,7 +76,7 @@ public class Asteroid extends GameObject implements Collidable, CollidableVisito
 
     }
 
-    public boolean hasLife() {
+    public boolean isAlive() {
         return health >= 0;
     }
 }

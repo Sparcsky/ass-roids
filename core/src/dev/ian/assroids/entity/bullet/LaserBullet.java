@@ -2,6 +2,9 @@ package dev.ian.assroids.entity.bullet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+
+import dev.ian.assroids.asset.Asset;
 
 /**
  * Created by: Ian Parcon
@@ -14,16 +17,19 @@ public class LaserBullet extends Bullet {
         super(angle, x, y);
         name = "Laser Bullet";
         color = Color.YELLOW;
-        damage = 5;
-        width = 10;
-        height = 10;
-        speed = 500;
-        bulletCoil = 0.01f;
+        damage = 10;
+        width = 15;
+        height = 15;
+        speed = 1000;
+        bulletCoil = 0.05f;
+        gunShotSound = Asset.instance().get(Asset.LASER_SOUND);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
         super.draw(batch);
+        sprite.setOriginCenter();
+        sprite.setRotation(angle * MathUtils.radDeg);
         sprite.draw(batch);
     }
 }

@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import dev.ian.assroids.entity.Entity;
 import dev.ian.assroids.entity.GameObject;
+import dev.ian.assroids.entity.Health;
 import dev.ian.assroids.entity.Ship;
 
 /**
@@ -18,12 +19,15 @@ import dev.ian.assroids.entity.Ship;
 public class Player implements Entity {
 
     private Stack<Health> lives;
-    private String name;
-    private Ship ship;
     private int damage;
+    private Ship ship;
 
     public Player(Ship ship) {
         this.ship = ship;
+        initHealth();
+    }
+
+    private void initHealth(){
         lives = new Stack<Health>();
         for (int i = 0; i < 5; i++) {
             Health life = new Health();

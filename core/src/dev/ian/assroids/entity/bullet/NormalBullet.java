@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
+import dev.ian.assroids.asset.Asset;
+
 
 /**
  * Created by: Ian Parcon
@@ -14,10 +16,11 @@ public class NormalBullet extends Bullet {
 
     public NormalBullet(float angle, float x, float y) {
         super(angle, x, y);
-        damage = 30;
+        damage = 40;
         width = 25;
         height = 25;
         color = Color.YELLOW;
+        gunShotSound = Asset.instance().get(Asset.NORMAL_GUN_SHOT);
     }
 
     @Override

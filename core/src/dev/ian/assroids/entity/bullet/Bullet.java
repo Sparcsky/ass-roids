@@ -1,6 +1,7 @@
 package dev.ian.assroids.entity.bullet;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,12 +11,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
-import dev.ian.assroids.Collidable;
-import dev.ian.assroids.CollidableVisitor;
-import dev.ian.assroids.PowerUp;
 import dev.ian.assroids.asset.Asset;
+import dev.ian.assroids.collision.Collidable;
+import dev.ian.assroids.collision.CollidableVisitor;
 import dev.ian.assroids.entity.Asteroid;
 import dev.ian.assroids.entity.GameObject;
+import dev.ian.assroids.entity.PowerUp;
 import dev.ian.assroids.entity.Ship;
 
 /**
@@ -35,6 +36,8 @@ public class Bullet extends GameObject implements Collidable, CollidableVisitor 
     protected float height = 16;
     protected float bulletCoil;
     protected int damage;
+
+    protected Sound gunShotSound;
 
     public Bullet(float angle, float x, float y) {
         super(x, y);
@@ -104,5 +107,9 @@ public class Bullet extends GameObject implements Collidable, CollidableVisitor 
 
     public Color getColor() {
         return color;
+    }
+
+    public void playSound() {
+        gunShotSound.setVolume(gunShotSound.play(), 0.3f);
     }
 }
