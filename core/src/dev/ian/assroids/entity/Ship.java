@@ -1,8 +1,6 @@
 package dev.ian.assroids.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import dev.ian.assroids.asset.Asset;
 import dev.ian.assroids.collision.Collidable;
 import dev.ian.assroids.collision.CollidableVisitor;
 import dev.ian.assroids.entity.bullet.Bullet;
@@ -33,6 +30,7 @@ public class Ship extends GameObject implements Collidable, CollidableVisitor {
     private float angle;
     private int damage;
     private int kill;
+    private boolean isFiring;
 
     public Ship(Sprite sprite, float x, float y) {
         super(sprite, x, y);
@@ -68,14 +66,20 @@ public class Ship extends GameObject implements Collidable, CollidableVisitor {
     }
 
     public void fire() {
+        isFiring = false;
         if (fireDelay >= gunCoil) {
-            Bullet bullet = BulletFactory.create(bulletType, angle,  x + getWidth() / 2, y + getHeight() / 2);
+            Bullet bullet = BulletFactory.create(bulletType, angle, x + getWidth() / 2, y + getHeight() / 2);
             damage = bullet.getDamage();
             gunCoil = bullet.getBulletCoil();
             bullets.add(bullet);
             fireDelay = 0;
             bullet.playSound();
+            isFiring = true;
         }
+    }
+
+    public boolean isFiring() {
+        return isFiring;
     }
 
     @Override

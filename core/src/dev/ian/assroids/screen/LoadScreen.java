@@ -95,7 +95,7 @@ public class LoadScreen extends BaseScreen {
                 asset.load();
                 isFinishLoading = true;
             }
-        }, 5, 0, 1);
+        }, 1, 0, 1);
     }
 
     @Override

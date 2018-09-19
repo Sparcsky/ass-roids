@@ -2,7 +2,9 @@ package dev.ian.assroids.screen;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,15 +41,21 @@ public class PlayScreen extends BaseScreen {
     private Player player;
     private Music bgMusic;
 
-    private PowerUpGenerator powerGenerator;
+    private int score;
 
+    private PowerUpGenerator powerGenerator;
+    private OrthographicCamera camera;
     private boolean gameOver;
     private float spawnTimer;
     private float spawnTimeDelay = 10;
-    private int level;
+    private int level = 1;
+    private float camDx;
+    private float camDy;
 
     public PlayScreen(AssRoids game) {
         super(game);
+        camera = new OrthographicCamera(width, height);
+        camera.setToOrtho(false, width, height);
     }
 
     private void initBackground() {
@@ -102,12 +110,21 @@ public class PlayScreen extends BaseScreen {
         } else {
             gameOver = true;
         }
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        if (ship.isFiring()) {
+            float angle = MathUtils.random(360);
+            camDx += MathUtils.cos(angle * MathUtils.degRad);
+            camDy += MathUtils.sin(angle * MathUtils.degRad);
+
+            camera.position.x = camera.position.x + camDx;
+            camera.position.y = camera.position.y + camDy;
+        }
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-
         powerGenerator.generatePower(delta);
         batch.begin();
         background.draw(batch);
@@ -128,7 +145,10 @@ public class PlayScreen extends BaseScreen {
             }
             if (ship.isCollide(asteroid)) {
                 player.decreaseHealth(5);
+                hitExplodeSound.setVolume(hitExplodeSound.play(), 0.4f);
                 explosionManager.add(ExplosionFactory.create(ship));
+                camera.position.x = camera.position.x + MathUtils.random(-5, 5);
+                camera.position.y = camera.position.y + MathUtils.random(-5, 5);
             }
         }
         if (spawnTimer >= spawnTimeDelay) {
@@ -157,6 +177,11 @@ public class PlayScreen extends BaseScreen {
         }
     }
 
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+    }
+
     private void drawSprite() {
         powerGenerator.draw(batch);
         explosionManager.draw(batch);
@@ -172,9 +197,10 @@ public class PlayScreen extends BaseScreen {
         font.draw(batch, "Ship angle: " + (int) ship.getAngle(), 15, height - 75);
         font.draw(batch, "Bullet: : " + ship.getBulletType().name(), 15, height - 90);
         font.draw(batch, "LEVEL: " + level, 400, height - 15);
-        font.draw(batch, "Kill: " + ship.getKill(), 200, height - 15);
+        font.draw(batch, "Destroyed asteroid: " + ship.getKill(), 200, height - 15);
         font.draw(batch, "Asteroid count: " + asteroids.size(), 200, height - 30);
         font.draw(batch, "Ian Parcs", ship.getX(), ship.getY());
+        font.draw(batch, "Score: " + score, 200, height - 45);
 
         if (gameOver)
             font.draw(batch, "GAME OVER!", (width / 2) - 50, height / 2);
@@ -187,6 +213,7 @@ public class PlayScreen extends BaseScreen {
             bullet.accept(asteroid);
             asteroid.accept(bullet);
             if (bullet.isCollide(asteroid)) {
+                score += 10;
                 hitExplodeSound.setVolume(hitExplodeSound.play(), 0.15f);
                 explosionManager.add(ExplosionFactory.create(bullet));
                 bulletIter.remove();
